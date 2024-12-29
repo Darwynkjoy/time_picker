@@ -7,11 +7,16 @@ class TimepickerExample extends StatefulWidget{
 }
 
 class _timepickerState extends State<TimepickerExample>{
-  late TimeOfDay? selectedTime=TimeOfDay.now();
+  late TimeOfDay selectedtime=TimeOfDay.now();
 
-  Future <void> _selectedtime()async{
-    final TimeOfDay? picked=await showTimePicker(context: context, initialTime: selectedTime);
-    if
+  Future<void> _selectedTime(BuildContext context)async{
+    final TimeOfDay? picked=
+    await showTimePicker(context: context, initialTime: selectedtime);
+    if(picked != null && picked != selectedtime){
+      setState(() {
+        selectedtime=picked;
+      });
+    }
   }
 
   @override
@@ -26,9 +31,9 @@ class _timepickerState extends State<TimepickerExample>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Time selected"),
+            Text("Time selected:${selectedtime.format(context)}"),
             ElevatedButton(onPressed: (){
-        
+              _selectedTime(context);
             }, child: Text("Select date")),
           ],
         ),
